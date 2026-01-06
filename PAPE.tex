@@ -1,0 +1,224 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Page setup
+\geometry{margin=2.5cm}
+
+% Title setup
+\title{\textbf{Pension Economics Project}\\Mortality Forecasting and Analysis}
+\author{Jakob}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    This project analyzes and forecasts mortality rates for the German population using historical data from 1991 to 2022. Three stochastic mortality models are implemented and compared: the Lee-Carter model, the Cairns-Blake-Dowd (CBD) model, and the Age-Period-Cohort (APC) model. Forecasts are projected up to the year 2050 for ages 55, 65, and 75.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+In this project, we examine the evolution of mortality rates in Germany and project future trends. Accurate mortality forecasting is crucial for pension economics, annuity pricing, and social security planning.
+
+\section{Data Description}
+The analysis is based on period life tables for Germany.
+\begin{itemize}
+    \item \textbf{Source:} Statistisches Bundesamt (Destatis), Table 12621-0001.
+    \item \textbf{Period:} 1991 -- 2022.
+    \item \textbf{Population:} Males and Females.
+    \item \textbf{Ages of Interest:} 55, 65, and 75 years.
+\end{itemize}
+
+\section{Methodology}
+
+\subsection{Lee-Carter Model}
+The Lee-Carter model describes the log-mortality rates as:
+\begin{equation}
+    \ln(m_{x,t}) = a_x + b_x k_t + \epsilon_{x,t}
+\end{equation}
+where $a_x$ is the average age profile, $k_t$ is the time trend index, and $b_x$ measures the sensitivity of age $x$ to changes in $k_t$.
+
+\subsection{Cairns-Blake-Dowd (CBD) Model}
+The CBD model (M5) focuses on the logit of the mortality probability $q_{x,t}$:
+\begin{equation}
+    \text{logit}(q_{x,t}) = \ln\left(\frac{q_{x,t}}{1-q_{x,t}}\right) = \kappa_t^{(1)} + \kappa_t^{(2)}(x - \bar{x}) + \epsilon_{x,t}
+\end{equation}
+where $\bar{x}$ is the average age in the sample.
+
+\subsection{Age-Period-Cohort (APC) Model}
+The APC model extends the analysis to include cohort effects:
+\begin{equation}
+    \ln(m_{x,t}) = \alpha_x + \kappa_t + \gamma_{t-x} + \epsilon_{x,t}
+\end{equation}
+where $\gamma_{t-x}$ represents the effect specific to the cohort born in year $t-x$.
+
+\section{Results and Forecasts}
+
+\subsection{Lee-Carter Forecasts}
+The following plots show the historical and forecasted mortality rates using the Lee-Carter model with 95\% confidence intervals.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{Forecast Plots/forecast_mortality_male.png}
+        \caption{Males}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{Forecast Plots/forecast_mortality_female.png}
+        \caption{Females}
+    \end{subfigure}
+    \caption{Lee-Carter Mortality Forecasts (1991-2050)}
+\end{figure}
+
+\subsection{Cairns-Blake-Dowd (CBD) Forecasts}
+Forecasts obtained using the CBD model.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{Forecast Plots/forecast_cbd_male.png}
+        \caption{Males}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{Forecast Plots/forecast_cbd_female.png}
+        \caption{Females}
+    \end{subfigure}
+    \caption{CBD Mortality Forecasts (1991-2050)}
+\end{figure}
+
+\subsection{Age-Period-Cohort (APC) Forecasts}
+Forecasts obtained using the APC model, incorporating cohort effects.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{Forecast Plots/forecast_apc_male.png}
+        \caption{Males}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{Forecast Plots/forecast_apc_female.png}
+        \caption{Females}
+    \end{subfigure}
+    \caption{APC Mortality Forecasts (1991-2050)}
+\end{figure}
+
+\section{Project Questions}
+
+\subsection{Data Ranges and Time Series Estimation}
+\textbf{Question:} Justify your choices of data ranges to fit each mortality model, and to estimate the time series model.
+
+\textbf{Answer:}
+We utilized the full available data range from \textbf{1991 to 2022} for both fitting the mortality models (Lee-Carter, CBD, APC) and estimating the time series parameters.
+
+\begin{itemize}
+    \item \textbf{Start Date (1991):} The choice of 1991 is structurally significant for German data as it marks the period immediately following reunification (1990). Data prior to 1991 would likely contain structural breaks due to the disparate healthcare and economic conditions in West and East Germany. Using post-1991 data ensures a consistent population definition and avoids contamination from these historical structural differences.
+    \item \textbf{End Date (2022):} We included data up to the most recent available year, 2022. This period (32 years) is sufficiently long to identify robust long-term trends in mortality improvement (drift) while being short enough to reflect modern mortality dynamics.
+    \item \textbf{Inclusion of COVID-19 Years (2020-2022):} We deliberately included the pandemic years. While these years represent a shock, excluding them would artificially deflate the volatility estimate ($\sigma_k$). For pension economics, underestimating uncertainty is more dangerous than overestimating it. Including these years widens the confidence intervals, providing a more prudent buffer for longevity risk management.
+\end{itemize}
+
+\subsection{Estimated Effects and Goodness of Fit}
+\textbf{Question:} Comment on the estimated age, period, and cohort effects (if available) for each mortality model, and comment on the goodness of fit of the model.
+
+\textbf{Answer:}
+\begin{itemize}
+    \item \textbf{Lee-Carter Model:}
+    \begin{itemize}
+        \item \textit{Age Effect ($a_x$):} Follows the standard biological law of mortality, increasing exponentially with age.
+        \item \textit{Period Effect ($k_t$):} Shows a clear, nearly linear downward trend from 1991 to 2019, indicating consistent mortality improvements. A slight uptick or flattening is observed in 2020-2022 due to the pandemic.
+        \item \textit{Goodness of Fit:} The model explains the majority of the variance in the data (typically $>95\%$). However, residuals may show patterns along diagonals, indicating that the model misses cohort-specific effects.
+    \end{itemize}
+    
+    \item \textbf{Cairns-Blake-Dowd (CBD) Model:}
+    \begin{itemize}
+        \item \textit{Level ($\kappa_t^{(1)}$):} Represents the mean level of mortality, showing a downward trend similar to Lee-Carter's $k_t$.
+        \item \textit{Slope ($\kappa_t^{(2)}$):} Represents the slope of the mortality curve. Fluctuations in this parameter indicate that mortality improvements have not been uniform across all ages (e.g., 55-year-olds improving faster than 75-year-olds).
+        \item \textit{Goodness of Fit:} The CBD model is specifically designed for higher ages (55+). It generally fits well for this age range where the logit of mortality probabilities is approximately linear with age.
+    \end{itemize}
+    
+    \item \textbf{Age-Period-Cohort (APC) Model:}
+    \begin{itemize}
+        \item \textit{Cohort Effect ($\gamma_{t-x}$):} This model explicitly captures generation-specific effects. For German data, we often observe distinct patterns for cohorts born during or immediately after the World Wars, reflecting the long-term health impacts of early-life conditions.
+        \item \textit{Goodness of Fit:} The APC model typically provides the best in-sample fit among the three because it has the most parameters. It successfully removes the diagonal patterns in residuals that Lee-Carter often leaves behind.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Forecast Measure and Performance}
+\textbf{Question:} Justify your choice of forecast measure, and comment on the forecast performance of each model.
+
+\textbf{Answer:}
+\begin{itemize}
+    \item \textbf{Forecast Measure:} We forecast the \textbf{central mortality rate ($m_x$)} (or probability of death $q_x$ for CBD). This is the fundamental input for calculating life expectancy and annuity values.
+    \item \textbf{Performance:}
+    \begin{itemize}
+        \item \textit{Lee-Carter:} Produces stable, robust forecasts. The linear projection of $k_t$ assumes past trends continue indefinitely. It is less sensitive to recent noise than CBD.
+        \item \textit{CBD:} Can be more volatile. If the "slope" parameter $\kappa_t^{(2)}$ has been changing recently, the CBD forecast might project a crossover of mortality curves (e.g., older people living longer than younger people), which is biologically impossible.
+        \item \textit{APC:} Provides a more nuanced forecast by carrying forward the "health capital" of existing cohorts. For the ages of interest (55, 65, 75) in the near future, these cohorts are already born, making the cohort component of the forecast relatively reliable.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Improving Forecast Performance}
+\textbf{Question:} How can you improve the forecast performance?
+
+\textbf{Answer:}
+\begin{itemize}
+    \item \textbf{Data Segmentation:} Instead of fitting the model to the entire 1991-2022 period, we could test for structural breaks and fit the model only to the most recent trend (e.g., post-2000) if the rate of improvement has changed.
+    \item \textbf{Advanced Time Series:} The Random Walk with Drift is a rigid assumption. Using ARIMA models (e.g., ARIMA(1,1,0)) might better capture short-term autocorrelation in the mortality index.
+    \item \textbf{Cause-of-Death Models:} Forecasting aggregate mortality lumps together different drivers (cancer, heart disease, accidents). Modeling these separately (multi-state models) could improve accuracy, as different causes have different improvement rates.
+    \item \textbf{Explanatory Variables:} Incorporating exogenous factors like GDP, healthcare spending, or smoking prevalence could refine the forecasts (though forecasting these variables is itself difficult).
+\end{itemize}
+
+\subsection{Robustness and Model Uncertainty}
+\textbf{Question:} Are the results robust across the models? Consider an approach to forecast mortality that takes into account model uncertainty. How would you justify your approach?
+
+\textbf{Answer:}
+\begin{itemize}
+    \item \textbf{Robustness:} The results are qualitatively robust—all models predict declining mortality. However, quantitatively, they differ. The CBD model often projects different slopes for the age curve than Lee-Carter. The APC model may show "bumps" for specific future years as certain cohorts age.
+    \item \textbf{Approach for Model Uncertainty:} I would propose a \textbf{Model Averaging} approach (e.g., Bayesian Model Averaging or simple equal weighting).
+    \item \textbf{Justification:} Relying on a single model exposes the pension plan to "model risk"—the risk that the chosen model is wrong. By averaging the forecasts of Lee-Carter, CBD, and APC, we smooth out the idiosyncrasies of any single model. This results in a "consensus" forecast that is generally more robust and has been shown in empirical studies to often outperform individual models out-of-sample.
+\end{itemize}
+
+\subsection{Best Model and Limitations}
+\textbf{Question:} Which of the three models is the best, and why? What are the limitations and concerns of this model forecast if you are a pension planner?
+
+\textbf{Answer:}
+\begin{itemize}
+    \item \textbf{Best Model:} For the specific purpose of pension planning in Germany, the \textbf{Age-Period-Cohort (APC)} model is likely the "best" choice.
+    \item \textbf{Why:} Mortality data often exhibits strong cohort effects (e.g., the "golden generations"). Ignoring these (as Lee-Carter does) can lead to systematic under- or over-estimation of life expectancy for specific groups of retirees.
+    \item \textbf{Limitations \& Concerns:}
+    \begin{itemize}
+        \item \textit{Trend Extrapolation Risk:} All these models assume the future looks like the past. They cannot foresee medical breakthroughs (e.g., a cure for Alzheimer's) or new pandemics.
+        \item \textit{Systematic Risk:} The confidence intervals only capture parameter uncertainty and historical volatility. They do not capture the risk of a fundamental shift in the biological limit of human life.
+        \item \textit{Parameter Uncertainty:} For a pension planner, the "tail risk" (people living much longer than expected) is the most expensive. The APC model might be too complex (overfitting), leading to dangerously narrow confidence intervals that underestimate this tail risk.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Implications for the Pension System}
+\textbf{Question:} Based on your results, what can you say about the current pension system in this country?
+
+\textbf{Answer:}
+\begin{itemize}
+    \item \textbf{Rising Life Expectancy:} All forecasts point to a continued decline in mortality rates for 55, 65, and 75-year-olds. This means the duration of pension payments will continue to increase.
+    \item \textbf{Financial Strain:} Germany operates a Pay-As-You-Go (PAYG) system. With the "Baby Boomer" cohorts (visible in the APC analysis) entering retirement and living longer, the ratio of contributors to beneficiaries will worsen significantly.
+    \item \textbf{Policy Implication:} The current system is likely unsustainable without parameter adjustments. The results support the necessity of mechanisms like the "Demographic Factor" in the pension formula, or further increases in the statutory retirement age to offset the gains in life expectancy.
+\end{itemize}
+
+\section{Conclusion}
+[Write your conclusion here]
+
+\end{document}
