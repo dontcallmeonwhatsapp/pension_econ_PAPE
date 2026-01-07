@@ -13,6 +13,7 @@
 
 % Page setup
 \geometry{margin=2.5cm}
+\pagestyle{plain}
 
 % Title setup
 \title{\textbf{Pension Economics Project}\\Mortality Forecasting and Analysis}
@@ -35,7 +36,7 @@
 In this project, we examine the evolution of mortality rates in Germany and project future trends. Accurate mortality forecasting is crucial for pension economics, annuity pricing, and social security planning.
 
 \section{Data Description}
-The analysis is based on period life tables for Germany.
+The analysis is based on period life tables for Germany \cite{destatis2023}.
 \begin{itemize}
     \item \textbf{Source:} Statistisches Bundesamt (Destatis), Table 12621-0001.
     \item \textbf{Period:} 1991 -- 2022.
@@ -46,21 +47,21 @@ The analysis is based on period life tables for Germany.
 \section{Methodology}
 
 \subsection{Lee-Carter Model}
-The Lee-Carter model describes the log-mortality rates as:
+The Lee-Carter model \cite{leecarter1992} describes the log-mortality rates as:
 \begin{equation}
     \ln(m_{x,t}) = a_x + b_x k_t + \epsilon_{x,t}
 \end{equation}
 where $a_x$ is the average age profile, $k_t$ is the time trend index, and $b_x$ measures the sensitivity of age $x$ to changes in $k_t$.
 
 \subsection{Cairns-Blake-Dowd (CBD) Model}
-The CBD model (M5) focuses on the logit of the mortality probability $q_{x,t}$:
+The CBD model \cite{cbd2006}, also known as Model M5, focuses on the logit of the mortality probability $q_{x,t}$:
 \begin{equation}
     \text{logit}(q_{x,t}) = \ln\left(\frac{q_{x,t}}{1-q_{x,t}}\right) = \kappa_t^{(1)} + \kappa_t^{(2)}(x - \bar{x}) + \epsilon_{x,t}
 \end{equation}
 where $\bar{x}$ is the average age in the sample.
 
 \subsection{Age-Period-Cohort (APC) Model}
-The APC model extends the analysis to include cohort effects:
+The APC model \cite{renshaw2006, apc2009} extends the analysis to include cohort effects:
 \begin{equation}
     \ln(m_{x,t}) = \alpha_x + \kappa_t + \gamma_{t-x} + \epsilon_{x,t}
 \end{equation}
@@ -190,7 +191,7 @@ We utilized the full available data range from \textbf{1991 to 2022} for both fi
 \textbf{Answer:}
 \begin{itemize}
     \item \textbf{Robustness:} The results are qualitatively robust—all models predict declining mortality. However, quantitatively, they differ. The CBD model often projects different slopes for the age curve than Lee-Carter. The APC model may show "bumps" for specific future years as certain cohorts age.
-    \item \textbf{Approach for Model Uncertainty:} I would propose a \textbf{Model Averaging} approach (e.g., Bayesian Model Averaging or simple equal weighting).
+    \item \textbf{Approach for Model Uncertainty:} We propose a \textbf{Model Averaging} approach (e.g., Bayesian Model Averaging or simple equal weighting).
     \item \textbf{Justification:} Relying on a single model exposes the pension plan to "model risk"—the risk that the chosen model is wrong. By averaging the forecasts of Lee-Carter, CBD, and APC, we smooth out the idiosyncrasies of any single model. This results in a "consensus" forecast that is generally more robust and has been shown in empirical studies to often outperform individual models out-of-sample.
 \end{itemize}
 
@@ -220,6 +221,39 @@ We utilized the full available data range from \textbf{1991 to 2022} for both fi
 \end{itemize}
 
 \section{Conclusion}
-[Write your conclusion here]
+This project has successfully implemented and compared three stochastic mortality models---Lee-Carter, Cairns-Blake-Dowd (CBD), and Age-Period-Cohort (APC)---for forecasting German mortality rates from 1991 to 2050. All three models consistently predict continued mortality improvements for ages 55, 65, and 75, though they differ in their quantitative projections and uncertainty bounds.
+
+Our analysis suggests that the APC model is most suitable for pension planning in Germany due to its ability to capture cohort-specific effects, which are particularly relevant given the country's demographic history. However, we recommend a model averaging approach to mitigate model risk and produce more robust forecasts.
+
+The implications for the German pension system are significant: continued increases in life expectancy will place additional strain on the Pay-As-You-Go system, necessitating policy adjustments such as increases in the retirement age or modifications to the benefit formula. These findings underscore the importance of incorporating rigorous mortality forecasting into pension system design and reform.
+
+\begin{thebibliography}{9}
+
+\bibitem{leecarter1992}
+Lee, R.D. and Carter, L.R. (1992).
+\newblock Modeling and Forecasting U.S. Mortality.
+\newblock \textit{Journal of the American Statistical Association}, 87(419):659--671.
+
+\bibitem{cbd2006}
+Cairns, A.J.G., Blake, D., and Dowd, K. (2006).
+\newblock A Two-Factor Model for Stochastic Mortality with Parameter Uncertainty: Theory and Calibration.
+\newblock \textit{Journal of Risk and Insurance}, 73(4):687--718.
+
+\bibitem{apc2009}
+Cairns, A.J.G., Blake, D., Dowd, K., Coughlan, G.D., Epstein, D., Ong, A., and Balevich, I. (2009).
+\newblock A Quantitative Comparison of Stochastic Mortality Models Using Data from England and Wales and the United States.
+\newblock \textit{North American Actuarial Journal}, 13(1):1--35.
+
+\bibitem{destatis2023}
+Statistisches Bundesamt (Destatis) (2023).
+\newblock Sterbetafel (Periodensterbetafel): Deutschland, Jahre, Geschlecht, Vollendetes Alter.
+\newblock Table 12621-0001. Available at: \url{https://www-genesis.destatis.de/}.
+
+\bibitem{renshaw2006}
+Renshaw, A.E. and Haberman, S. (2006).
+\newblock A Cohort-Based Extension to the Lee-Carter Model for Mortality Reduction Factors.
+\newblock \textit{Insurance: Mathematics and Economics}, 38(3):556--570.
+
+\end{thebibliography}
 
 \end{document}
