@@ -1,4 +1,4 @@
-import LeeCarter as lc
+from . import LeeCarter as lc
 
 # application
 
