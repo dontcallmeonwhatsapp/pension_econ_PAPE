@@ -47,6 +47,14 @@ python plotting.py
 
 Plots are saved to `Forecast Plots/` directory.
 
+## Contributions
+
+| Contributor     | Contribution            |
+| --------------- | ----------------------- |
+| Richard & Jakob | Code (pair programming) |
+| Jakob           | Report (first half)     |
+| Richard         | Report (second half)    |
+
 ## Data
 
 Source: [Statistisches Bundesamt (Destatis)](https://www.destatis.de)
