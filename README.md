@@ -17,7 +17,7 @@ This project forecasts mortality rates by gender for Germany using three stochas
 ## Setup
 
 ```bash
-pip install pandas numpy matplotlib scipy
+pip install pandas numpy matplotlib scipy plotly
 ```
 
 ## Usage

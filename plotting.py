@@ -67,7 +67,7 @@ def main():
         plt.tight_layout()
         
         age_str = age.replace(' ', '_')
-        output_file = f'mortality_rate_{sex.lower()}_{age_str}.png'
+        output_file = f'Forecast Plots/mortality_rate_{sex.lower()}_{age_str}.png'
         plt.savefig(output_file)
         print(f"Plot saved to {output_file}")
         plt.close()

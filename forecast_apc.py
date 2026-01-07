@@ -297,7 +297,7 @@ def main():
         plt.legend()
         plt.grid(True, linestyle='--', alpha=0.7)
         
-        output_file = f'forecast_apc_{sex.lower()}.png'
+        output_file = f'Forecast Plots/forecast_apc_{sex.lower()}.png'
         plt.savefig(output_file)
         print(f"Saved plot to {output_file}")
         plt.close()
